@@ -293,7 +293,7 @@
       }
 
       .header-btns button {
-        padding: 4px 8px;
+        padding: 4px 6px;
         font-size: 0.75rem;
         min-height: 32px;
       }
@@ -356,7 +356,7 @@
       <div class="header-btns">
         <button id="btn-sound-toggle">🔊 Sound</button>
         <button id="btn-save-game">💾 Save</button>
-        <button id="btn-new-char">👤 Hero</button>
+        <button id="btn-new-game" style="border-color:var(--term-amber); color:var(--term-amber);">↺ New Game</button>
         <button id="btn-lock-console" style="border-color:var(--term-red); color:var(--term-red);">🔒</button>
       </div>
     </header>
@@ -397,7 +397,8 @@
   <!-- Character Creation Modal -->
   <div id="char-modal" class="modal-overlay">
     <div class="modal-box">
-      <div class="stat-title">✦ Operative Registration</div>
+      <div class="stat-title">✦ New Campaign — Operative Registration</div>
+      <p style="font-size:0.8rem; color:#a0c0d8; margin:4px 0 10px 0;">Configure your character stats and background to launch a brand new game session.</p>
       
       <label style="font-size:0.8rem; color:var(--term-cyan);">Character Name:</label>
       <input type="text" id="create-name" placeholder="Name..." value="Kaelen Vance" />
@@ -416,7 +417,7 @@
       </select>
 
       <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
-        <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700; min-height:44px;">Start Operation</button>
+        <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700; min-height:44px;">Launch New Game</button>
       </div>
     </div>
   </div>
@@ -738,7 +739,7 @@
       saveGame();
     };
 
-    document.getElementById('btn-new-char').onclick = () => {
+    document.getElementById('btn-new-game').onclick = () => {
       playSound('click');
       document.getElementById('char-modal').style.display = 'flex';
     };
@@ -765,7 +766,7 @@
       document.getElementById('char-modal').style.display = 'none';
       document.getElementById('console-log').innerHTML = '';
       updateUI();
-      appendLog(`✦ OPERATIVE REGISTRATION COMPLETE: ${player.name} (${player.background})`, 'success');
+      appendLog(`✦ NEW CAMPAIGN INITIALIZED: ${player.name} (${player.background})`, 'success');
       saveGame();
       renderLocation();
     };
