@@ -46,7 +46,7 @@
       opacity: 0.5;
     }
 
-    /* Cryptographic Gate Screen */
+    /* Password Authentication Screen */
     #auth-screen {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -347,7 +347,7 @@
       <div class="logo">✦ STARVEIL: SHADOWS OF THE SECTOR</div>
       <div class="header-btns">
         <button id="btn-sound-toggle">🔊 Sound: ON</button>
-        <button id="btn-api-key">🔑 Gemini API</button>
+        <button id="btn-save-game">💾 Save</button>
         <button id="btn-new-char">👤 New Hero</button>
         <button id="btn-lock-console" style="border-color:var(--term-red); color:var(--term-red);">🔒 Lock</button>
       </div>
@@ -402,21 +402,6 @@
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
         <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700;">Start Operation</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- API Modal -->
-  <div id="api-modal" class="modal-overlay">
-    <div class="modal-box">
-      <div class="stat-title">🔑 Gemini AI Game Master Settings</div>
-      <p style="font-size:0.85rem; color:#a0c0d8;">
-        Paste your Google Gemini API key. Stored securely in your browser's local storage and called directly from your client.
-      </p>
-      <input type="password" id="api-key-input" placeholder="AIzaSy..." />
-      <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button id="btn-save-key">Save Key</button>
-        <button id="btn-close-modal" style="border-color:#555; color:#aaa;">Close</button>
       </div>
     </div>
   </div>
@@ -483,8 +468,9 @@
       } catch (e) {}
     }
 
-    // Cryptographic SHA-256 Passcode Verification (Plaintext is NEVER stored in code)
+    // Cryptographic SHA-256 Passcode Verification & Decryption
     const TARGET_SHA256_HASH = "17d5e54eebd3eec11776c65244d202834334929674c414f2d19b67bdb541d803";
+    const ENCRYPTED_GEMINI_KEY_CIPHER = "AD9KKBhCPisHdWpeXXgKZEJ5AQBdQzMJE0EAFAVDRGYbWHU4NQ4fTDsgVlwBZHNaRVd2OS8=";
 
     async function computeSHA256(str) {
       const msgBuffer = new TextEncoder().encode(str);
@@ -492,6 +478,22 @@
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
+
+    function xorDecrypt(cipherB64, keyStr) {
+      try {
+        const keyBytes = new TextEncoder().encode(keyStr);
+        const binaryStr = atob(cipherB64);
+        const decrypted = new Uint8Array(binaryStr.length);
+        for (let i = 0; i < binaryStr.length; i++) {
+          decrypted[i] = binaryStr.charCodeAt(i) ^ keyBytes[i % keyBytes.length];
+        }
+        return new TextDecoder().decode(decrypted);
+      } catch (e) {
+        return "";
+      }
+    }
+
+    let apiKey = "";
 
     async function checkPasscode() {
       const input = document.getElementById('auth-passcode').value.trim();
@@ -502,10 +504,15 @@
       if (computedHash === TARGET_SHA256_HASH) {
         playSound('click');
         sessionStorage.setItem('starveil_auth_hash', computedHash);
+        
+        // Decrypt Gemini API key in memory using password
+        apiKey = xorDecrypt(ENCRYPTED_GEMINI_KEY_CIPHER, input);
+        
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-container').classList.add('unlocked');
         err.style.display = 'none';
-        renderLocation();
+        
+        loadGame();
       } else {
         playSound('error');
         err.style.display = 'block';
@@ -524,7 +531,6 @@
     };
 
     // Game State
-    let apiKey = localStorage.getItem('gemini_api_key') || '';
     let player = {
       name: 'Kaelen Vance',
       background: 'Former Soldier',
@@ -574,6 +580,27 @@
       }
     };
 
+    function saveGame() {
+      try {
+        localStorage.setItem('starveil_saved_player', JSON.stringify(player));
+        appendLog('💾 Game progress auto-saved locally!', 'success');
+      } catch(e) {}
+    }
+
+    function loadGame() {
+      try {
+        const saved = localStorage.getItem('starveil_saved_player');
+        if (saved) {
+          player = JSON.parse(saved);
+          appendLog('📂 Welcome back! Saved game progress loaded.', 'success');
+        } else {
+          appendLog('✦ NEW OPERATIVE SESSION INITIALIZED.', 'success');
+        }
+      } catch(e) {}
+      updateUI();
+      renderLocation();
+    }
+
     function appendLog(text, type = '') {
       const log = document.getElementById('console-log');
       const entry = document.createElement('div');
@@ -586,7 +613,7 @@
     async function fetchAINarration(promptContext) {
       if (!apiKey) return null;
       try {
-        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
@@ -634,6 +661,7 @@
       btnExplore.onclick = () => {
         playSound('click');
         appendLog(`You explore ${loc.sub[0]}. Power conduits hum softly in the bulkhead.`, 'success');
+        saveGame();
       };
       menu.appendChild(btnExplore);
 
@@ -643,6 +671,7 @@
       btnNpc.onclick = () => {
         playSound('click');
         appendLog(`"${loc.npcs[0]} looks at you: 'The Valkyrie freighter went dark 48 hours ago. We need someone to retrieve its datalog pad before rogue drones wipe the ship clean.'"`);
+        saveGame();
       };
       menu.appendChild(btnNpc);
 
@@ -661,6 +690,7 @@
         player.location = nextLocKey;
         updateUI();
         appendLog(` Jump successful! Consumed 15 Fuel.`, 'success');
+        saveGame();
         renderLocation();
       };
       menu.appendChild(btnTravel);
@@ -681,24 +711,9 @@
       document.getElementById('btn-sound-toggle').innerText = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
     };
 
-    // Modal listeners
-    document.getElementById('btn-api-key').onclick = () => {
+    document.getElementById('btn-save-game').onclick = () => {
       playSound('click');
-      document.getElementById('api-modal').style.display = 'flex';
-      document.getElementById('api-key-input').value = apiKey;
-    };
-
-    document.getElementById('btn-close-modal').onclick = () => {
-      playSound('click');
-      document.getElementById('api-modal').style.display = 'none';
-    };
-
-    document.getElementById('btn-save-key').onclick = () => {
-      playSound('click');
-      apiKey = document.getElementById('api-key-input').value.trim();
-      localStorage.setItem('gemini_api_key', apiKey);
-      document.getElementById('api-modal').style.display = 'none';
-      appendLog('✅ Gemini API Key saved securely to browser local storage!', 'success');
+      saveGame();
     };
 
     document.getElementById('btn-new-char').onclick = () => {
@@ -711,23 +726,25 @@
       const customName = document.getElementById('create-name').value.trim() || 'Kaelen Vance';
       const customBg = document.getElementById('create-bg').value;
 
-      player.name = customName;
-      player.background = customBg;
-
-      if (customBg === 'Corporate Operative') {
-        player.credits = 800;
-      } else if (customBg === 'Former Soldier') {
-        player.hp = 180;
-        player.maxHp = 180;
-      } else if (customBg === 'Engineer') {
-        player.ep = 60;
-        player.maxEp = 60;
-      }
+      player = {
+        name: customName,
+        background: customBg,
+        level: 1,
+        hp: customBg === 'Former Soldier' ? 180 : 165,
+        maxHp: customBg === 'Former Soldier' ? 180 : 165,
+        ep: customBg === 'Engineer' ? 60 : 50,
+        maxEp: customBg === 'Engineer' ? 60 : 50,
+        credits: customBg === 'Corporate Operative' ? 800 : 500,
+        fuel: 50,
+        maxFuel: 100,
+        location: 'station_khepri'
+      };
 
       document.getElementById('char-modal').style.display = 'none';
       document.getElementById('console-log').innerHTML = '';
       updateUI();
       appendLog(`✦ OPERATIVE REGISTRATION COMPLETE: ${player.name} (${player.background})`, 'success');
+      saveGame();
       renderLocation();
     };
 
@@ -735,10 +752,7 @@
       if (sessionStorage.getItem('starveil_auth_hash') === TARGET_SHA256_HASH) {
         document.getElementById('auth-screen').style.display = 'none';
         document.getElementById('app-container').classList.add('unlocked');
-        updateUI();
-        renderLocation();
-      } else {
-        updateUI();
+        loadGame();
       }
     };
   </script>
