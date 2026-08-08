@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>STARVEIL: Shadows of the Sector — Sci-Fi RPG</title>
   <style>
     :root {
-      --bg-color: #080c14;
+      --bg-color: #060a12;
       --term-green: #00ff66;
       --term-cyan: #00e5ff;
       --term-amber: #ffb700;
       --term-red: #ff3366;
-      --term-dim: #4a6b82;
-      --panel-bg: rgba(12, 20, 32, 0.92);
-      --border-color: #1e3a50;
+      --panel-bg: rgba(10, 18, 28, 0.95);
+      --border-color: #1a3248;
     }
 
     * {
@@ -30,7 +29,7 @@
       height: 100%;
       background-color: var(--bg-color);
       color: #d0e6f5;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Courier New", monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
       overflow: hidden;
       touch-action: manipulation;
     }
@@ -43,7 +42,7 @@
       background-size: 100% 4px;
       pointer-events: none;
       z-index: 999;
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     /* Password Authentication Screen */
@@ -55,24 +54,24 @@
       justify-content: center;
       align-items: center;
       z-index: 999999;
-      padding: 20px;
+      padding: 16px;
     }
 
     .auth-box {
       background: #0c1826;
       border: 2px solid var(--term-cyan);
-      padding: 30px;
+      padding: 24px 20px;
       border-radius: 12px;
-      width: 420px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 380px;
       box-shadow: 0 0 30px rgba(0, 229, 255, 0.25);
       text-align: center;
     }
 
-    /* Layout */
+    /* Desktop Layout */
     #app-container {
       display: none;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 280px 1fr;
       grid-template-rows: 50px 1fr;
       width: 100vw;
       height: 100vh;
@@ -84,54 +83,47 @@
 
     header {
       grid-column: 1 / -1;
-      background: #0b1522;
+      background: #09131f;
       border-bottom: 2px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 16px;
+      padding: 0 12px;
+      height: 50px;
     }
 
     .logo {
       font-weight: 700;
       color: var(--term-cyan);
-      letter-spacing: 1.5px;
-      font-size: 1rem;
+      letter-spacing: 1px;
+      font-size: 0.95rem;
       text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .header-btns {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     button {
-      background: #122232;
+      background: #102030;
       color: var(--term-cyan);
       border: 1px solid var(--term-cyan);
-      padding: 8px 12px;
+      padding: 6px 10px;
       font-family: inherit;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       border-radius: 6px;
       cursor: pointer;
-      min-height: 38px;
+      min-height: 36px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
     }
 
-    button:hover {
-      background: var(--term-cyan);
-      color: #000;
-      box-shadow: 0 0 10px var(--term-cyan);
-    }
-
     button:active {
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     /* Sidebar Panel */
@@ -141,43 +133,43 @@
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
     }
 
     .stat-card {
-      background: #0e1b2a;
+      background: #0d1a29;
       border: 1px solid var(--border-color);
-      padding: 10px;
+      padding: 8px 10px;
       border-radius: 6px;
     }
 
     .stat-title {
       color: var(--term-amber);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       border-bottom: 1px solid var(--border-color);
-      padding-bottom: 4px;
+      padding-bottom: 2px;
       font-weight: 600;
     }
 
     .stat-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.82rem;
-      margin-bottom: 4px;
+      font-size: 0.8rem;
+      margin-bottom: 3px;
     }
 
     /* Terminal Console */
     #terminal-container {
       display: flex;
       flex-direction: column;
-      padding: 16px;
-      background: #05080e;
+      padding: 12px;
+      background: #04070d;
       overflow: hidden;
       position: relative;
+      height: 100%;
     }
 
     #console-log {
@@ -185,15 +177,15 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding-right: 6px;
+      gap: 8px;
+      padding-right: 4px;
       font-family: "Courier New", Courier, monospace;
       -webkit-overflow-scrolling: touch;
     }
 
     .log-entry {
-      line-height: 1.45;
-      font-size: 0.92rem;
+      line-height: 1.4;
+      font-size: 0.9rem;
     }
 
     .log-entry.ai {
@@ -202,64 +194,69 @@
       padding-left: 8px;
     }
 
-    .log-entry.success {
-      color: var(--term-green);
-    }
-
-    .log-entry.warning {
-      color: var(--term-amber);
-    }
-
-    .log-entry.danger {
-      color: var(--term-red);
-    }
+    .log-entry.success { color: var(--term-green); }
+    .log-entry.warning { color: var(--term-amber); }
+    .log-entry.danger { color: var(--term-red); }
 
     #action-menu {
-      margin-top: 12px;
+      margin-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       border-top: 1px solid var(--border-color);
-      padding-top: 12px;
+      padding-top: 8px;
     }
 
     .action-btn {
-      background: #0d1b28;
-      border: 1px solid #1e3e56;
+      background: #0c1a28;
+      border: 1px solid #1a384e;
       color: #b0d4f1;
       text-align: left;
-      padding: 12px 14px;
-      font-size: 0.9rem;
-      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.88rem;
+      border-radius: 8px;
       cursor: pointer;
-      min-height: 44px; /* Touch target */
+      min-height: 48px; /* Ideal Mobile Touch Target */
+      display: flex;
+      align-items: center;
     }
 
-    .action-btn:hover {
-      background: #182e42;
+    .action-btn:hover, .action-btn:active {
+      background: #162c40;
       border-color: var(--term-cyan);
       color: #fff;
     }
 
-    /* Modals & Creation Screen */
+    /* Mobile HUD Top Bar */
+    #mobile-hud {
+      display: none;
+      background: #0b1826;
+      border-bottom: 1px solid var(--border-color);
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Modals */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(4, 8, 14, 0.92);
+      background: rgba(4, 8, 14, 0.94);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 99999;
-      padding: 16px;
+      padding: 12px;
     }
 
     .modal-box {
       background: #0e1b2a;
       border: 2px solid var(--term-cyan);
-      padding: 20px;
+      padding: 18px;
       border-radius: 10px;
-      width: 500px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 440px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
@@ -274,48 +271,59 @@
       font-family: inherit;
       font-size: 16px; /* Prevents iOS auto-zoom */
       border-radius: 6px;
-      margin: 8px 0 14px 0;
+      margin: 6px 0 12px 0;
     }
 
-    /* Mobile Responsive Styles */
+    /* Mobile Responsive Overrides */
     @media (max-width: 768px) {
-      #app-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: 50px 180px 1fr;
+      #app-container.unlocked {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        height: 100dvh; /* Mobile Full Height Fix */
+      }
+
+      header {
+        height: 46px;
+        padding: 0 8px;
       }
 
       .logo {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+      }
+
+      .header-btns button {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        min-height: 32px;
       }
 
       #sidebar {
-        border-right: none;
-        border-bottom: 2px solid var(--border-color);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 8px;
+        display: none; /* Replaced by compact HUD on mobile */
       }
 
-      .stat-card {
-        padding: 6px;
-      }
-
-      .stat-row {
-        font-size: 0.75rem;
+      #mobile-hud {
+        display: flex;
       }
 
       #terminal-container {
-        padding: 10px;
+        flex: 1;
+        padding: 10px 8px;
+        overflow: hidden;
       }
 
       .log-entry {
-        font-size: 0.85rem;
+        font-size: 0.82rem;
       }
 
       .action-btn {
-        padding: 10px;
-        font-size: 0.85rem;
+        padding: 10px 12px;
+        font-size: 0.82rem;
+        min-height: 44px;
+      }
+
+      .auth-box {
+        padding: 20px 16px;
       }
     }
   </style>
@@ -327,16 +335,16 @@
   <!-- Password Authentication Gate Screen -->
   <div id="auth-screen">
     <div class="auth-box">
-      <div style="font-size:2rem; margin-bottom:10px;">🔒</div>
-      <div class="stat-title" style="font-size:1.1rem; color:var(--term-cyan);">RESTRICTED TERMINAL ACCESS</div>
-      <p style="font-size:0.85rem; color:#a0c0d8; margin-top:8px;">
-        Security Protocol Active. Enter authorized security passcode to initialize terminal:
+      <div style="font-size:1.8rem; margin-bottom:8px;">🔒</div>
+      <div class="stat-title" style="font-size:1rem; color:var(--term-cyan);">RESTRICTED TERMINAL</div>
+      <p style="font-size:0.8rem; color:#a0c0d8; margin:6px 0 12px 0;">
+        Enter security passcode to unlock terminal:
       </p>
-      <input type="password" id="auth-passcode" placeholder="Enter security passcode..." autocomplete="off" />
-      <div id="auth-error" style="color:var(--term-red); font-size:0.82rem; margin-bottom:10px; display:none;">
-        ❌ ACCESS DENIED: Invalid Passcode
+      <input type="password" id="auth-passcode" placeholder="Passcode..." autocomplete="off" />
+      <div id="auth-error" style="color:var(--term-red); font-size:0.8rem; margin-bottom:8px; display:none;">
+        ❌ Invalid Passcode
       </div>
-      <button id="btn-unlock" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700; font-size:1rem; min-height:44px;">
+      <button id="btn-unlock" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700; font-size:0.95rem; min-height:44px;">
         UNLOCK CONSOLE
       </button>
     </div>
@@ -344,15 +352,22 @@
 
   <div id="app-container">
     <header>
-      <div class="logo">✦ STARVEIL: SHADOWS OF THE SECTOR</div>
+      <div class="logo">✦ STARVEIL</div>
       <div class="header-btns">
-        <button id="btn-sound-toggle">🔊 Sound: ON</button>
+        <button id="btn-sound-toggle">🔊 Sound</button>
         <button id="btn-save-game">💾 Save</button>
-        <button id="btn-new-char">👤 New Hero</button>
-        <button id="btn-lock-console" style="border-color:var(--term-red); color:var(--term-red);">🔒 Lock</button>
+        <button id="btn-new-char">👤 Hero</button>
+        <button id="btn-lock-console" style="border-color:var(--term-red); color:var(--term-red);">🔒</button>
       </div>
     </header>
 
+    <!-- Mobile HUD Bar -->
+    <div id="mobile-hud">
+      <div>👤 <strong id="m-p-name">Kaelen</strong> (<span id="m-p-bg">Soldier</span>)</div>
+      <div>❤️ <span id="m-p-hp" style="color:var(--term-green);">165</span> | ⚡ <span id="m-p-ep" style="color:var(--term-cyan);">50</span> | 💳 <span id="m-p-cr" style="color:var(--term-amber);">500</span></div>
+    </div>
+
+    <!-- Desktop Sidebar -->
     <div id="sidebar">
       <div class="stat-card">
         <div class="stat-title">Operative Status</div>
@@ -384,10 +399,10 @@
     <div class="modal-box">
       <div class="stat-title">✦ Operative Registration</div>
       
-      <label style="font-size:0.85rem; color:var(--term-cyan);">Character Name:</label>
-      <input type="text" id="create-name" placeholder="Enter operative name..." value="Kaelen Vance" />
+      <label style="font-size:0.8rem; color:var(--term-cyan);">Character Name:</label>
+      <input type="text" id="create-name" placeholder="Name..." value="Kaelen Vance" />
 
-      <label style="font-size:0.85rem; color:var(--term-cyan);">Choose Background:</label>
+      <label style="font-size:0.8rem; color:var(--term-cyan);">Choose Background:</label>
       <select id="create-bg">
         <option value="Former Soldier">Former Soldier (+2 STR, +3 Firearms, +15 HP)</option>
         <option value="Smuggler">Smuggler (+2 AGI, +3 Piloting, +2 Stealth)</option>
@@ -400,8 +415,8 @@
         <option value="Explorer">Explorer (+2 PER, +2 Piloting, +2 Survival)</option>
       </select>
 
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
-        <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700;">Start Operation</button>
+      <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:8px;">
+        <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700; min-height:44px;">Start Operation</button>
       </div>
     </div>
   </div>
@@ -703,12 +718,19 @@
       document.getElementById('p-ep').innerText = `${player.ep} / ${player.maxEp}`;
       document.getElementById('p-cr').innerText = `${player.credits} CR`;
       document.getElementById('s-fuel').innerText = `${player.fuel} / ${player.maxFuel}`;
+
+      // Update Mobile HUD
+      document.getElementById('m-p-name').innerText = player.name;
+      document.getElementById('m-p-bg').innerText = player.background.replace('Former ', '');
+      document.getElementById('m-p-hp').innerText = `${player.hp}/${player.maxHp}`;
+      document.getElementById('m-p-ep').innerText = `${player.ep}/${player.maxEp}`;
+      document.getElementById('m-p-cr').innerText = `${player.credits}`;
     }
 
     // Audio Toggle
     document.getElementById('btn-sound-toggle').onclick = () => {
       soundEnabled = !soundEnabled;
-      document.getElementById('btn-sound-toggle').innerText = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+      document.getElementById('btn-sound-toggle').innerText = soundEnabled ? '🔊 Sound' : '🔇 Sound';
     };
 
     document.getElementById('btn-save-game').onclick = () => {
