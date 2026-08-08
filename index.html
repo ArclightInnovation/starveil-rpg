@@ -596,10 +596,12 @@
       }
     };
 
-    function saveGame() {
+    function saveGame(showLog = false) {
       try {
         localStorage.setItem('starveil_saved_player', JSON.stringify(player));
-        appendLog('💾 Game progress auto-saved locally!', 'success');
+        if (showLog) {
+          appendLog('💾 Game progress saved!', 'success');
+        }
       } catch(e) {}
     }
 
@@ -677,7 +679,7 @@
       btnExplore.onclick = () => {
         playSound('click');
         appendLog(`You explore ${loc.sub[0]}. Power conduits hum softly in the bulkhead.`, 'success');
-        saveGame();
+        saveGame(false);
       };
       menu.appendChild(btnExplore);
 
@@ -687,7 +689,7 @@
       btnNpc.onclick = () => {
         playSound('click');
         appendLog(`"${loc.npcs[0]} looks at you: 'The Valkyrie freighter went dark 48 hours ago. We need someone to retrieve its datalog pad before rogue drones wipe the ship clean.'"`);
-        saveGame();
+        saveGame(false);
       };
       menu.appendChild(btnNpc);
 
@@ -706,7 +708,7 @@
         player.location = nextLocKey;
         updateUI();
         appendLog(` Jump successful! Consumed 15 Fuel.`, 'success');
-        saveGame();
+        saveGame(false);
         renderLocation();
       };
       menu.appendChild(btnTravel);
@@ -736,7 +738,7 @@
 
     document.getElementById('btn-save-game').onclick = () => {
       playSound('click');
-      saveGame();
+      saveGame(true);
     };
 
     document.getElementById('btn-new-game').onclick = () => {
@@ -767,7 +769,7 @@
       document.getElementById('console-log').innerHTML = '';
       updateUI();
       appendLog(`✦ NEW CAMPAIGN INITIALIZED: ${player.name} (${player.background})`, 'success');
-      saveGame();
+      saveGame(false);
       renderLocation();
     };
 
