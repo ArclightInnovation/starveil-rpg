@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>STARVEIL: Shadows of the Sector — Sci-Fi RPG</title>
   <style>
     :root {
@@ -12,7 +12,7 @@
       --term-amber: #ffb700;
       --term-red: #ff3366;
       --term-dim: #4a6b82;
-      --panel-bg: rgba(12, 20, 32, 0.85);
+      --panel-bg: rgba(12, 20, 32, 0.92);
       --border-color: #1e3a50;
     }
 
@@ -20,6 +20,7 @@
       box-sizing: border-box;
       user-select: none;
       -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
     body, html {
@@ -29,8 +30,9 @@
       height: 100%;
       background-color: var(--bg-color);
       color: #d0e6f5;
-      font-family: "Courier New", Courier, monospace;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Courier New", monospace;
       overflow: hidden;
+      touch-action: manipulation;
     }
 
     /* CRT Overlay Effect */
@@ -41,13 +43,13 @@
       background-size: 100% 4px;
       pointer-events: none;
       z-index: 999;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     /* Layout */
     #app-container {
       display: grid;
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 300px 1fr;
       grid-template-rows: 50px 1fr;
       width: 100vw;
       height: 100vh;
@@ -60,31 +62,38 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     .logo {
-      font-weight: bold;
+      font-weight: 700;
       color: var(--term-cyan);
-      letter-spacing: 2px;
-      font-size: 1.1rem;
+      letter-spacing: 1.5px;
+      font-size: 1rem;
       text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .header-btns {
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
 
     button {
       background: #122232;
       color: var(--term-cyan);
       border: 1px solid var(--term-cyan);
-      padding: 6px 14px;
+      padding: 8px 12px;
       font-family: inherit;
       font-size: 0.85rem;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.15s ease;
     }
 
@@ -94,37 +103,43 @@
       box-shadow: 0 0 10px var(--term-cyan);
     }
 
+    button:active {
+      transform: scale(0.96);
+    }
+
     /* Sidebar Panel */
     #sidebar {
       background: var(--panel-bg);
       border-right: 2px solid var(--border-color);
-      padding: 16px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .stat-card {
       background: #0e1b2a;
       border: 1px solid var(--border-color);
-      padding: 12px;
+      padding: 10px;
       border-radius: 6px;
     }
 
     .stat-title {
       color: var(--term-amber);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 4px;
+      font-weight: 600;
     }
 
     .stat-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       margin-bottom: 4px;
     }
 
@@ -132,7 +147,7 @@
     #terminal-container {
       display: flex;
       flex-direction: column;
-      padding: 20px;
+      padding: 16px;
       background: #05080e;
       overflow: hidden;
       position: relative;
@@ -143,19 +158,21 @@
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding-right: 10px;
+      gap: 10px;
+      padding-right: 6px;
+      font-family: "Courier New", Courier, monospace;
+      -webkit-overflow-scrolling: touch;
     }
 
     .log-entry {
-      line-height: 1.5;
-      font-size: 0.95rem;
+      line-height: 1.45;
+      font-size: 0.92rem;
     }
 
     .log-entry.ai {
       color: var(--term-cyan);
       border-left: 3px solid var(--term-cyan);
-      padding-left: 10px;
+      padding-left: 8px;
     }
 
     .log-entry.success {
@@ -171,12 +188,12 @@
     }
 
     #action-menu {
-      margin-top: 16px;
+      margin-top: 12px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       border-top: 1px solid var(--border-color);
-      padding-top: 16px;
+      padding-top: 12px;
     }
 
     .action-btn {
@@ -184,10 +201,11 @@
       border: 1px solid #1e3e56;
       color: #b0d4f1;
       text-align: left;
-      padding: 10px 14px;
+      padding: 12px 14px;
       font-size: 0.9rem;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
+      min-height: 44px; /* Touch target */
     }
 
     .action-btn:hover {
@@ -196,41 +214,81 @@
       color: #fff;
     }
 
-    /* API Modal */
-    #api-modal {
+    /* Modals & Creation Screen */
+    .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
+      background: rgba(4, 8, 14, 0.92);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 99999;
+      padding: 16px;
     }
 
     .modal-box {
       background: #0e1b2a;
       border: 2px solid var(--term-cyan);
-      padding: 24px;
-      border-radius: 8px;
-      width: 450px;
-      max-width: 90vw;
+      padding: 20px;
+      border-radius: 10px;
+      width: 500px;
+      max-width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
     }
 
-    input[type="password"], input[type="text"] {
+    input[type="text"], input[type="password"], select {
       width: 100%;
       padding: 10px;
       background: #050b12;
       border: 1px solid var(--border-color);
       color: var(--term-cyan);
       font-family: inherit;
-      border-radius: 4px;
-      margin: 12px 0;
+      font-size: 16px; /* Prevents iOS auto-zoom */
+      border-radius: 6px;
+      margin: 8px 0 14px 0;
     }
 
+    /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       #app-container {
         grid-template-columns: 1fr;
-        grid-template-rows: 50px 200px 1fr;
+        grid-template-rows: 50px 180px 1fr;
+      }
+
+      .logo {
+        font-size: 0.85rem;
+      }
+
+      #sidebar {
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 8px;
+      }
+
+      .stat-card {
+        padding: 6px;
+      }
+
+      .stat-row {
+        font-size: 0.75rem;
+      }
+
+      #terminal-container {
+        padding: 10px;
+      }
+
+      .log-entry {
+        font-size: 0.85rem;
+      }
+
+      .action-btn {
+        padding: 10px;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -243,8 +301,9 @@
     <header>
       <div class="logo">✦ STARVEIL: SHADOWS OF THE SECTOR</div>
       <div class="header-btns">
-        <button id="btn-api-key">🔑 Gemini API Key</button>
-        <button id="btn-reset">↺ New Game</button>
+        <button id="btn-sound-toggle">🔊 Sound: ON</button>
+        <button id="btn-api-key">🔑 Gemini API</button>
+        <button id="btn-new-char">👤 New Hero</button>
       </div>
     </header>
 
@@ -264,11 +323,7 @@
         <div class="stat-row"><span>Ship:</span><span>SS Starseeker</span></div>
         <div class="stat-row"><span>Hull:</span><span>100%</span></div>
         <div class="stat-row"><span>Fuel:</span><span id="s-fuel" style="color:var(--term-amber);">50 / 100</span></div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-title">Active Quest</div>
-        <div id="q-title" style="font-size:0.85rem; color:var(--term-cyan);">Act I: Signal in the Dark</div>
+        <div class="stat-row"><span>Quest:</span><span id="q-title" style="color:var(--term-cyan);">Act I: Signal</span></div>
       </div>
     </div>
 
@@ -278,11 +333,39 @@
     </div>
   </div>
 
-  <div id="api-modal">
+  <!-- Character Creation Modal -->
+  <div id="char-modal" class="modal-overlay" style="display:flex;">
     <div class="modal-box">
-      <div class="stat-title">🔑 Configure Gemini AI Game Master</div>
+      <div class="stat-title">✦ Operative Registration</div>
+      
+      <label style="font-size:0.85rem; color:var(--term-cyan);">Character Name:</label>
+      <input type="text" id="create-name" placeholder="Enter operative name..." value="Kaelen Vance" />
+
+      <label style="font-size:0.85rem; color:var(--term-cyan);">Choose Background:</label>
+      <select id="create-bg">
+        <option value="Former Soldier">Former Soldier (+2 STR, +3 Firearms, +15 HP)</option>
+        <option value="Smuggler">Smuggler (+2 AGI, +3 Piloting, +2 Stealth)</option>
+        <option value="Engineer">Engineer (+3 TEC, +4 Engineering, +10 EP)</option>
+        <option value="Scientist">Scientist (+3 INT, +4 Science, +2 Medicine)</option>
+        <option value="Corporate Operative">Corporate Operative (+2 PRE, +3 Persuasion, +300 CR)</option>
+        <option value="Bounty Hunter">Bounty Hunter (+2 PER, +3 Investigation, +2 Firearms)</option>
+        <option value="Colony Survivor">Colony Survivor (+1 STR, +4 Survival, +10 HP)</option>
+        <option value="Hacker">Hacker (+2 TEC, +4 Hacking, +1 INT)</option>
+        <option value="Explorer">Explorer (+2 PER, +2 Piloting, +2 Survival)</option>
+      </select>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+        <button id="btn-start-game" style="width:100%; background:var(--term-cyan); color:#000; font-weight:700;">Start Operation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API Modal -->
+  <div id="api-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="stat-title">🔑 Gemini AI Game Master Settings</div>
       <p style="font-size:0.85rem; color:#a0c0d8;">
-        Paste your Google Gemini API key below. It will be stored securely in your browser's local storage and called directly from your client.
+        Paste your Google Gemini API key. Stored securely in your browser's local storage and called directly from your client.
       </p>
       <input type="password" id="api-key-input" placeholder="AIzaSy..." />
       <div style="display:flex; justify-content:flex-end; gap:10px;">
@@ -293,13 +376,63 @@
   </div>
 
   <script>
+    // Web Audio Synthesizer
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.04);
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.04);
+        } else if (type === 'warp') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.2);
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.2);
+        } else if (type === 'ai') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.16);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.16);
+        }
+      } catch (e) {}
+    }
+
     // Game State
     let apiKey = localStorage.getItem('gemini_api_key') || '';
     let player = {
       name: 'Kaelen Vance',
       background: 'Former Soldier',
       level: 1,
-      xp: 0,
       hp: 165,
       maxHp: 165,
       ep: 50,
@@ -382,6 +515,7 @@
       appendLog(loc.description);
 
       if (apiKey) {
+        playSound('ai');
         appendLog('🌌 AI Game Master is generating ambient narration...', 'ai');
         const aiText = await fetchAINarration(`Player ${player.name} is at ${loc.name}. ${loc.description}`);
         if (aiText) {
@@ -402,6 +536,7 @@
       btnExplore.className = 'action-btn';
       btnExplore.innerText = '🔍 [1] Explore Location Sub-Areas';
       btnExplore.onclick = () => {
+        playSound('click');
         appendLog(`You explore ${loc.sub[0]}. Power conduits hum softly in the bulkhead.`, 'success');
       };
       menu.appendChild(btnExplore);
@@ -410,6 +545,7 @@
       btnNpc.className = 'action-btn';
       btnNpc.innerText = `💬 [2] Speak with ${loc.npcs.join(', ')}`;
       btnNpc.onclick = () => {
+        playSound('click');
         appendLog(`"${loc.npcs[0]} looks at you: 'The Valkyrie freighter went dark 48 hours ago. We need someone to retrieve its datalog pad before rogue drones wipe the ship clean.'"`);
       };
       menu.appendChild(btnNpc);
@@ -419,9 +555,11 @@
       btnTravel.innerText = '🚀 [3] Interstellar Jump Navigation';
       btnTravel.onclick = () => {
         if (player.fuel < 15) {
+          playSound('click');
           appendLog('❌ Insufficient fuel for jump!', 'danger');
           return;
         }
+        playSound('warp');
         const nextLocKey = loc.connections[0];
         player.fuel -= 15;
         player.location = nextLocKey;
@@ -433,42 +571,72 @@
     }
 
     function updateUI() {
+      document.getElementById('p-name').innerText = player.name;
+      document.getElementById('p-bg').innerText = player.background;
       document.getElementById('p-hp').innerText = `${player.hp} / ${player.maxHp}`;
       document.getElementById('p-ep').innerText = `${player.ep} / ${player.maxEp}`;
+      document.getElementById('p-cr').innerText = `${player.credits} CR`;
       document.getElementById('s-fuel').innerText = `${player.fuel} / ${player.maxFuel}`;
     }
 
+    // Audio Toggle
+    document.getElementById('btn-sound-toggle').onclick = () => {
+      soundEnabled = !soundEnabled;
+      document.getElementById('btn-sound-toggle').innerText = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+    };
+
     // Modal listeners
     document.getElementById('btn-api-key').onclick = () => {
+      playSound('click');
       document.getElementById('api-modal').style.display = 'flex';
       document.getElementById('api-key-input').value = apiKey;
     };
 
     document.getElementById('btn-close-modal').onclick = () => {
+      playSound('click');
       document.getElementById('api-modal').style.display = 'none';
     };
 
     document.getElementById('btn-save-key').onclick = () => {
+      playSound('click');
       apiKey = document.getElementById('api-key-input').value.trim();
       localStorage.setItem('gemini_api_key', apiKey);
       document.getElementById('api-modal').style.display = 'none';
       appendLog('✅ Gemini API Key saved securely to browser local storage!', 'success');
     };
 
-    document.getElementById('btn-reset').onclick = () => {
-      player.hp = 165;
-      player.fuel = 50;
-      player.location = 'station_khepri';
+    document.getElementById('btn-new-char').onclick = () => {
+      playSound('click');
+      document.getElementById('char-modal').style.display = 'flex';
+    };
+
+    document.getElementById('btn-start-game').onclick = () => {
+      playSound('click');
+      const customName = document.getElementById('create-name').value.trim() || 'Kaelen Vance';
+      const customBg = document.getElementById('create-bg').value;
+
+      player.name = customName;
+      player.background = customBg;
+
+      if (customBg === 'Corporate Operative') {
+        player.credits = 800;
+      } else if (customBg === 'Former Soldier') {
+        player.hp = 180;
+        player.maxHp = 180;
+      } else if (customBg === 'Engineer') {
+        player.ep = 60;
+        player.maxEp = 60;
+      }
+
+      document.getElementById('char-modal').style.display = 'none';
       document.getElementById('console-log').innerHTML = '';
       updateUI();
+      appendLog(`✦ OPERATIVE REGISTRATION COMPLETE: ${player.name} (${player.background})`, 'success');
       renderLocation();
     };
 
-    // Init
     window.onload = () => {
-      appendLog('✦ STARVEIL ENGINE INITIALIZED. WELCOME, OPERATIVE KAELEN VANCE.', 'success');
       updateUI();
-      renderLocation();
     };
   </script>
 </body>
