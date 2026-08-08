@@ -1,0 +1,46 @@
+[
+  {
+    "id": "station_khepri",
+    "name": "Orbital Station Khepri",
+    "system": "Khepri Prime System",
+    "faction": "aegis_corp",
+    "description": "A bustling commercial and industrial orbital station suspended above the gas giant Khepri IV.",
+    "sub_locations": ["Observation Deck", "Market District", "Docking Bay 4", "Sub-Level Maintenance"],
+    "npcs": ["commander_vance", "trader_jax", "hack_master_kai"],
+    "shops": ["khepri_general_store"],
+    "travel_connections": ["colony_elysium", "derelict_valkyrie"]
+  },
+  {
+    "id": "colony_elysium",
+    "name": "Elysium Frontier Colony",
+    "system": "Khepri Prime System",
+    "faction": "free_colonies",
+    "description": "An independent terraforming outpost surrounded by dust storms and geothermal vents.",
+    "sub_locations": ["Central Plaza", "Hydroponics Bay", "Governor's Office"],
+    "npcs": ["governor_trent", "engineer_mira"],
+    "shops": ["frontier_supplies"],
+    "travel_connections": ["station_khepri", "outpost_helios"]
+  },
+  {
+    "id": "derelict_valkyrie",
+    "name": "Derelict Freighter 'Valkyrie'",
+    "system": "Khepri Prime System",
+    "faction": "none",
+    "description": "A silent, drifting science vessel emitting strange quantum signature harmonics.",
+    "sub_locations": ["Airlock Bridge", "Cargo Bay", "AI Core Vault"],
+    "npcs": ["submind_alpha"],
+    "shops": [],
+    "travel_connections": ["station_khepri"]
+  },
+  {
+    "id": "outpost_helios",
+    "name": "Helios Mining Rig 9",
+    "system": "Helios Alpha System",
+    "faction": "vaelen_syndicate",
+    "description": "A lawless asteroid mining facility dominated by syndicate enforcers and black-market dealers.",
+    "sub_locations": ["Cantina", "Mining Shaft B", "Black Market Den"],
+    "npcs": ["syndicate_boss_marzo"],
+    "shops": ["black_market_terminal"],
+    "travel_connections": ["colony_elysium"]
+  }
+]

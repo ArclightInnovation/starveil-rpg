@@ -1,0 +1,44 @@
+[
+  {
+    "id": "space_pirate_interdiction",
+    "name": "Pirate Interdiction Probe",
+    "type": "space",
+    "description": "Your sub-light engines shudder as an armed Vaelen Syndicate gunship exits stealth mode directly ahead!",
+    "options": [
+      {
+        "text": "[Piloting 5] Execute high-g maneuver to evade targeting locks.",
+        "skill_check": {"skill": "piloting", "difficulty": 5},
+        "success_outcome": "evaded",
+        "failure_outcome": "combat"
+      },
+      {
+        "text": "[Persuasion 6] Transmit forged merchant credentials and bribe codes.",
+        "skill_check": {"skill": "persuasion", "difficulty": 6},
+        "success_outcome": "bribed",
+        "failure_outcome": "combat"
+      },
+      {
+        "text": "Power up weapon batteries and engage!",
+        "outcome": "combat"
+      }
+    ]
+  },
+  {
+    "id": "space_distress_beacon",
+    "name": "Cryo-Pod Distress Signal",
+    "type": "space",
+    "description": "You detect an automated distress signal transmitting from an ancient escape pod adrift near an asteroid belt.",
+    "options": [
+      {
+        "text": "[Engineering 4] Scan and safely unseal the cryo-containment seals.",
+        "skill_check": {"skill": "engineering", "difficulty": 4},
+        "success_outcome": "salvaged_pod",
+        "failure_outcome": "damaged_pod"
+      },
+      {
+        "text": "Ignore the signal and keep flying.",
+        "outcome": "ignored"
+      }
+    ]
+  }
+]

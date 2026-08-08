@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STARVEIL: Shadows of the Sector — Sci-Fi RPG</title>
+  <style>
+    :root {
+      --bg-color: #080c14;
+      --term-green: #00ff66;
+      --term-cyan: #00e5ff;
+      --term-amber: #ffb700;
+      --term-red: #ff3366;
+      --term-dim: #4a6b82;
+      --panel-bg: rgba(12, 20, 32, 0.85);
+      --border-color: #1e3a50;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      color: #d0e6f5;
+      font-family: "Courier New", Courier, monospace;
+      overflow: hidden;
+    }
+
+    /* CRT Overlay Effect */
+    .crt-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    /* Layout */
+    #app-container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      grid-template-rows: 50px 1fr;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      background: #0b1522;
+      border-bottom: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-weight: bold;
+      color: var(--term-cyan);
+      letter-spacing: 2px;
+      font-size: 1.1rem;
+      text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+    }
+
+    .header-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background: #122232;
+      color: var(--term-cyan);
+      border: 1px solid var(--term-cyan);
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: var(--term-cyan);
+      color: #000;
+      box-shadow: 0 0 10px var(--term-cyan);
+    }
+
+    /* Sidebar Panel */
+    #sidebar {
+      background: var(--panel-bg);
+      border-right: 2px solid var(--border-color);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+
+    .stat-card {
+      background: #0e1b2a;
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: 6px;
+    }
+
+    .stat-title {
+      color: var(--term-amber);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    /* Terminal Console */
+    #terminal-container {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      background: #05080e;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #console-log {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 10px;
+    }
+
+    .log-entry {
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .log-entry.ai {
+      color: var(--term-cyan);
+      border-left: 3px solid var(--term-cyan);
+      padding-left: 10px;
+    }
+
+    .log-entry.success {
+      color: var(--term-green);
+    }
+
+    .log-entry.warning {
+      color: var(--term-amber);
+    }
+
+    .log-entry.danger {
+      color: var(--term-red);
+    }
+
+    #action-menu {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+
+    .action-btn {
+      background: #0d1b28;
+      border: 1px solid #1e3e56;
+      color: #b0d4f1;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .action-btn:hover {
+      background: #182e42;
+      border-color: var(--term-cyan);
+      color: #fff;
+    }
+
+    /* API Modal */
+    #api-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+
+    .modal-box {
+      background: #0e1b2a;
+      border: 2px solid var(--term-cyan);
+      padding: 24px;
+      border-radius: 8px;
+      width: 450px;
+      max-width: 90vw;
+    }
+
+    input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      background: #050b12;
+      border: 1px solid var(--border-color);
+      color: var(--term-cyan);
+      font-family: inherit;
+      border-radius: 4px;
+      margin: 12px 0;
+    }
+
+    @media (max-width: 768px) {
+      #app-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 200px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="crt-overlay"></div>
+
+  <div id="app-container">
+    <header>
+      <div class="logo">✦ STARVEIL: SHADOWS OF THE SECTOR</div>
+      <div class="header-btns">
+        <button id="btn-api-key">🔑 Gemini API Key</button>
+        <button id="btn-reset">↺ New Game</button>
+      </div>
+    </header>
+
+    <div id="sidebar">
+      <div class="stat-card">
+        <div class="stat-title">Operative Status</div>
+        <div class="stat-row"><span>Name:</span><span id="p-name">Kaelen Vance</span></div>
+        <div class="stat-row"><span>Background:</span><span id="p-bg">Former Soldier</span></div>
+        <div class="stat-row"><span>Level:</span><span id="p-lvl">1</span></div>
+        <div class="stat-row"><span>Health:</span><span id="p-hp" style="color:var(--term-green);">165 / 165</span></div>
+        <div class="stat-row"><span>Energy:</span><span id="p-ep" style="color:var(--term-cyan);">50 / 50</span></div>
+        <div class="stat-row"><span>Credits:</span><span id="p-cr" style="color:var(--term-amber);">500 CR</span></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-title">Starship Status</div>
+        <div class="stat-row"><span>Ship:</span><span>SS Starseeker</span></div>
+        <div class="stat-row"><span>Hull:</span><span>100%</span></div>
+        <div class="stat-row"><span>Fuel:</span><span id="s-fuel" style="color:var(--term-amber);">50 / 100</span></div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-title">Active Quest</div>
+        <div id="q-title" style="font-size:0.85rem; color:var(--term-cyan);">Act I: Signal in the Dark</div>
+      </div>
+    </div>
+
+    <div id="terminal-container">
+      <div id="console-log"></div>
+      <div id="action-menu"></div>
+    </div>
+  </div>
+
+  <div id="api-modal">
+    <div class="modal-box">
+      <div class="stat-title">🔑 Configure Gemini AI Game Master</div>
+      <p style="font-size:0.85rem; color:#a0c0d8;">
+        Paste your Google Gemini API key below. It will be stored securely in your browser's local storage and called directly from your client.
+      </p>
+      <input type="password" id="api-key-input" placeholder="AIzaSy..." />
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button id="btn-save-key">Save Key</button>
+        <button id="btn-close-modal" style="border-color:#555; color:#aaa;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Game State
+    let apiKey = localStorage.getItem('gemini_api_key') || '';
+    let player = {
+      name: 'Kaelen Vance',
+      background: 'Former Soldier',
+      level: 1,
+      xp: 0,
+      hp: 165,
+      maxHp: 165,
+      ep: 50,
+      maxEp: 50,
+      credits: 500,
+      fuel: 50,
+      maxFuel: 100,
+      location: 'station_khepri'
+    };
+
+    const locations = {
+      station_khepri: {
+        name: 'Orbital Station Khepri',
+        system: 'Khepri Prime System',
+        description: 'A bustling commercial and industrial orbital station suspended above the gas giant Khepri IV.',
+        npcs: ['Commander Vance'],
+        sub: ['Observation Deck', 'Market District', 'Docking Bay 4'],
+        connections: ['colony_elysium', 'derelict_valkyrie']
+      },
+      colony_elysium: {
+        name: 'Elysium Frontier Colony',
+        system: 'Khepri Prime System',
+        description: 'An independent terraforming outpost surrounded by dust storms and geothermal vents.',
+        npcs: ['Governor Trent'],
+        sub: ['Central Plaza', 'Hydroponics Bay'],
+        connections: ['station_khepri', 'outpost_helios']
+      },
+      derelict_valkyrie: {
+        name: 'Derelict Freighter Valkyrie',
+        system: 'Khepri Prime System',
+        description: 'A silent, drifting science vessel emitting strange quantum telemetry signals.',
+        npcs: ['AI Sub-Mind Alpha'],
+        sub: ['Airlock Bridge', 'AI Core Vault'],
+        connections: ['station_khepri']
+      },
+      outpost_helios: {
+        name: 'Helios Mining Rig 9',
+        system: 'Helios Alpha System',
+        description: 'A lawless asteroid mining facility dominated by Syndicate enforcers.',
+        npcs: ['Syndicate Boss Marzo'],
+        sub: ['Mining Shaft B', 'Cantina'],
+        connections: ['colony_elysium']
+      }
+    };
+
+    function appendLog(text, type = '') {
+      const log = document.getElementById('console-log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.innerText = text;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    async function fetchAINarration(promptContext) {
+      if (!apiKey) return null;
+      try {
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `You are the AI Game Master for STARVEIL, a dark sci-fi text RPG. Provide a vivid, concise narrative (2-3 sentences max).\nContext: ${promptContext}`
+              }]
+            }]
+          })
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          return data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    async function renderLocation() {
+      const loc = locations[player.location];
+      appendLog(`=== ${loc.name.toUpperCase()} (${loc.system}) ===`, 'warning');
+      appendLog(loc.description);
+
+      if (apiKey) {
+        appendLog('🌌 AI Game Master is generating ambient narration...', 'ai');
+        const aiText = await fetchAINarration(`Player ${player.name} is at ${loc.name}. ${loc.description}`);
+        if (aiText) {
+          appendLog(`[AI GM]: ${aiText}`, 'ai');
+        }
+      }
+
+      renderMenu();
+    }
+
+    function renderMenu() {
+      const menu = document.getElementById('action-menu');
+      menu.innerHTML = '';
+
+      const loc = locations[player.location];
+
+      const btnExplore = document.createElement('button');
+      btnExplore.className = 'action-btn';
+      btnExplore.innerText = '🔍 [1] Explore Location Sub-Areas';
+      btnExplore.onclick = () => {
+        appendLog(`You explore ${loc.sub[0]}. Power conduits hum softly in the bulkhead.`, 'success');
+      };
+      menu.appendChild(btnExplore);
+
+      const btnNpc = document.createElement('button');
+      btnNpc.className = 'action-btn';
+      btnNpc.innerText = `💬 [2] Speak with ${loc.npcs.join(', ')}`;
+      btnNpc.onclick = () => {
+        appendLog(`"${loc.npcs[0]} looks at you: 'The Valkyrie freighter went dark 48 hours ago. We need someone to retrieve its datalog pad before rogue drones wipe the ship clean.'"`);
+      };
+      menu.appendChild(btnNpc);
+
+      const btnTravel = document.createElement('button');
+      btnTravel.className = 'action-btn';
+      btnTravel.innerText = '🚀 [3] Interstellar Jump Navigation';
+      btnTravel.onclick = () => {
+        if (player.fuel < 15) {
+          appendLog('❌ Insufficient fuel for jump!', 'danger');
+          return;
+        }
+        const nextLocKey = loc.connections[0];
+        player.fuel -= 15;
+        player.location = nextLocKey;
+        updateUI();
+        appendLog(` Jump successful! Consumed 15 Fuel.`, 'success');
+        renderLocation();
+      };
+      menu.appendChild(btnTravel);
+    }
+
+    function updateUI() {
+      document.getElementById('p-hp').innerText = `${player.hp} / ${player.maxHp}`;
+      document.getElementById('p-ep').innerText = `${player.ep} / ${player.maxEp}`;
+      document.getElementById('s-fuel').innerText = `${player.fuel} / ${player.maxFuel}`;
+    }
+
+    // Modal listeners
+    document.getElementById('btn-api-key').onclick = () => {
+      document.getElementById('api-modal').style.display = 'flex';
+      document.getElementById('api-key-input').value = apiKey;
+    };
+
+    document.getElementById('btn-close-modal').onclick = () => {
+      document.getElementById('api-modal').style.display = 'none';
+    };
+
+    document.getElementById('btn-save-key').onclick = () => {
+      apiKey = document.getElementById('api-key-input').value.trim();
+      localStorage.setItem('gemini_api_key', apiKey);
+      document.getElementById('api-modal').style.display = 'none';
+      appendLog('✅ Gemini API Key saved securely to browser local storage!', 'success');
+    };
+
+    document.getElementById('btn-reset').onclick = () => {
+      player.hp = 165;
+      player.fuel = 50;
+      player.location = 'station_khepri';
+      document.getElementById('console-log').innerHTML = '';
+      updateUI();
+      renderLocation();
+    };
+
+    // Init
+    window.onload = () => {
+      appendLog('✦ STARVEIL ENGINE INITIALIZED. WELCOME, OPERATIVE KAELEN VANCE.', 'success');
+      updateUI();
+      renderLocation();
+    };
+  </script>
+</body>
+</html>

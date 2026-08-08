@@ -1,0 +1,58 @@
+[
+  {
+    "id": "quest_act1_main",
+    "name": "Act I: Signal in the Dark",
+    "type": "main",
+    "description": "Investigate the mysterious quantum telemetry broadcast originating from the derelict freighter Valkyrie.",
+    "act": 1,
+    "objectives": [
+      {
+        "id": "obj_speak_vance",
+        "type": "speak_npc",
+        "description": "Speak with Station Commander Vance on Orbital Station Khepri.",
+        "target": "commander_vance",
+        "completed": false
+      },
+      {
+        "id": "obj_travel_valkyrie",
+        "type": "travel_location",
+        "description": "Travel to Derelict Freighter Valkyrie.",
+        "target": "derelict_valkyrie",
+        "completed": false
+      },
+      {
+        "id": "obj_recover_datapad",
+        "type": "acquire_item",
+        "description": "Recover the Encrypted Corporate Datapad from the AI Core Vault.",
+        "target": "encrypted_data_pad",
+        "completed": false
+      }
+    ],
+    "rewards": {
+      "xp": 250,
+      "credits": 500,
+      "reputation": {"aegis_corp": 15}
+    }
+  },
+  {
+    "id": "quest_bounty_syndicate",
+    "name": "Bounty: Enforcer Marzo",
+    "type": "bounty",
+    "description": "Eliminate or neutralize Syndicate Boss Marzo at Helios Mining Rig 9.",
+    "act": 1,
+    "objectives": [
+      {
+        "id": "obj_kill_marzo",
+        "type": "kill_target",
+        "description": "Defeat Syndicate Boss Marzo in combat.",
+        "target": "syndicate_boss_marzo",
+        "completed": false
+      }
+    ],
+    "rewards": {
+      "xp": 180,
+      "credits": 750,
+      "reputation": {"free_colonies": 20, "vaelen_syndicate": -25}
+    }
+  }
+]

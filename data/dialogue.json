@@ -1,0 +1,72 @@
+{
+  "commander_vance": {
+    "start": {
+      "npc_text": "Commander Vance glances up from holographic telemetry maps. 'You look like someone looking for work—or running from trouble. Which is it?'",
+      "options": [
+        {
+          "text": "I'm looking for contract work in this sector.",
+          "next": "node_work"
+        },
+        {
+          "text": "[Persuasion 4] I noticed the security alerts regarding the Valkyrie freighter.",
+          "skill_check": {"skill": "persuasion", "difficulty": 4},
+          "success_next": "node_valkyrie_secret",
+          "failure_next": "node_work"
+        },
+        {
+          "text": "[Corporate Operative] I'm here under Aegis authority to audit classified signal anomalies.",
+          "background_req": "Corporate Operative",
+          "next": "node_corp_auth"
+        }
+      ]
+    },
+    "node_work": {
+      "npc_text": "'Simple enough. A science vessel, the Valkyrie, went dark 48 hours ago. We need someone to board it, retrieve its datalogs, and ensure no biohazards breach Khepri.'",
+      "options": [
+        {
+          "text": "Consider it done. I'll head to the Valkyrie.",
+          "action": "start_quest_act1",
+          "next": "node_end"
+        },
+        {
+          "text": "What are you paying for this breach job?",
+          "next": "node_pay"
+        }
+      ]
+    },
+    "node_valkyrie_secret": {
+      "npc_text": "'Smart move picking up on that. Truth is, the Valkyrie wasn't just a freighter—it was housing an experimental AI core. Fetch the datapad, and I'll double your bounty.'",
+      "options": [
+        {
+          "text": "Agreed. I'll retrieve the AI datapad.",
+          "action": "start_quest_act1",
+          "next": "node_end"
+        }
+      ]
+    },
+    "node_corp_auth": {
+      "npc_text": "Vance stands straight and salutes. 'Understood, Operative. All Valkyrie access clearance codes have been transferred directly to your ship.'",
+      "options": [
+        {
+          "text": "Good. Stand by for my report.",
+          "action": "start_quest_act1",
+          "next": "node_end"
+        }
+      ]
+    },
+    "node_pay": {
+      "npc_text": "'500 credits standard, plus hazard bonuses if you clear out rogue drones.'",
+      "options": [
+        {
+          "text": "Accept contract.",
+          "action": "start_quest_act1",
+          "next": "node_end"
+        }
+      ]
+    },
+    "node_end": {
+      "npc_text": "'May the solar winds favor you out there.'",
+      "options": []
+    }
+  }
+}

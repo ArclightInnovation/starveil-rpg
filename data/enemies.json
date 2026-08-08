@@ -1,0 +1,62 @@
+[
+  {
+    "id": "aegis_security_guard",
+    "name": "Aegis Security Operative",
+    "type": "soldier",
+    "health": 45,
+    "max_health": 45,
+    "armor": 5,
+    "damage_min": 8,
+    "damage_max": 14,
+    "accuracy": 75,
+    "ai_type": "tactical",
+    "xp_reward": 35,
+    "credits_reward": 50,
+    "loot_table": ["nanite_injector", "mag_pistol"]
+  },
+  {
+    "id": "syndicate_enforcer",
+    "name": "Vaelen Syndicate Thug",
+    "type": "mercenary",
+    "health": 55,
+    "max_health": 55,
+    "armor": 3,
+    "damage_min": 10,
+    "damage_max": 18,
+    "accuracy": 70,
+    "ai_type": "aggressive",
+    "xp_reward": 40,
+    "credits_reward": 75,
+    "loot_table": ["nanite_injector", "mono_blade"]
+  },
+  {
+    "id": "rogue_combat_drone",
+    "name": "MK-4 Rogue Combat Drone",
+    "type": "robot",
+    "health": 60,
+    "max_health": 60,
+    "armor": 10,
+    "damage_min": 14,
+    "damage_max": 22,
+    "accuracy": 82,
+    "ai_type": "defensive",
+    "xp_reward": 60,
+    "credits_reward": 100,
+    "loot_table": ["plasma_shield_cell", "cyber_deck_mk2"]
+  },
+  {
+    "id": "corrupted_ai_core",
+    "name": "Sub-Mind Construct Echo",
+    "type": "rogue_ai",
+    "health": 90,
+    "max_health": 90,
+    "armor": 8,
+    "damage_min": 18,
+    "damage_max": 28,
+    "accuracy": 88,
+    "ai_type": "boss",
+    "xp_reward": 150,
+    "credits_reward": 300,
+    "loot_table": ["encrypted_data_pad", "ancient_relic_shard"]
+  }
+]

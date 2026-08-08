@@ -1,0 +1,90 @@
+{
+  "player": {
+    "name": "TestHero",
+    "background": "Smuggler",
+    "level": 1,
+    "xp": 0,
+    "xp_to_next_level": 100,
+    "stat_points": 0,
+    "skill_points": 0,
+    "credits": 1250,
+    "attributes": {
+      "strength": 5,
+      "agility": 7,
+      "intelligence": 5,
+      "technical": 5,
+      "presence": 5,
+      "perception": 5
+    },
+    "skills": {
+      "firearms": 1,
+      "melee": 1,
+      "engineering": 1,
+      "hacking": 1,
+      "medicine": 1,
+      "piloting": 4,
+      "persuasion": 1,
+      "intimidation": 1,
+      "stealth": 3,
+      "science": 1,
+      "survival": 1,
+      "investigation": 1
+    },
+    "health": 130,
+    "energy": 90,
+    "perks": [],
+    "inventory_items": [
+      {
+        "id": "nanite_injector",
+        "name": "Nanite Med-Injector",
+        "type": "consumable",
+        "description": "Rapid-response medical nanites that repair organic tissue.",
+        "value": 45,
+        "weight": 0.5,
+        "effects": {
+          "heal": 35
+        }
+      }
+    ],
+    "equipped_weapon": {
+      "id": "mag_pistol",
+      "name": "Mag-Pulse Service Pistol",
+      "type": "weapon",
+      "slot": "primary",
+      "description": "Standard electro-magnetic sidearm fired with pinpoint accuracy.",
+      "value": 180,
+      "weight": 1.5,
+      "damage_min": 12,
+      "damage_max": 18,
+      "accuracy": 85,
+      "crit_chance": 10,
+      "weapon_type": "firearms",
+      "ammo_type": "energy_cell"
+    },
+    "equipped_armor": {
+      "id": "aegis_weave_vest",
+      "name": "Aegis Ballistic Weave Vest",
+      "type": "armor",
+      "description": "Lightweight composite armor crafted for security personnel.",
+      "value": 250,
+      "weight": 4.0,
+      "effects": {
+        "armor": 8,
+        "evasion": -2
+      }
+    },
+    "equipped_tech": {},
+    "current_location_id": "station_khepri",
+    "current_ship_name": "SS Starseeker",
+    "ship_hull": 100,
+    "ship_fuel": 50
+  },
+  "active_quests": {},
+  "completed_quests": {},
+  "factions": {
+    "aegis_corp": 0,
+    "free_colonies": 0,
+    "vaelen_syndicate": 0,
+    "transcendent_mind": 0
+  }
+}

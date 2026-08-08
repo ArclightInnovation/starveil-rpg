@@ -1,0 +1,74 @@
+[
+  {
+    "id": "nanite_injector",
+    "name": "Nanite Med-Injector",
+    "type": "consumable",
+    "description": "Rapid-response medical nanites that repair organic tissue.",
+    "value": 45,
+    "weight": 0.5,
+    "effects": {"heal": 35}
+  },
+  {
+    "id": "plasma_shield_cell",
+    "name": "Plasma Shield Cell",
+    "type": "consumable",
+    "description": "Recharges personal energy barrier.",
+    "value": 60,
+    "weight": 0.8,
+    "effects": {"energy_restore": 40}
+  },
+  {
+    "id": "stim_overdrive",
+    "name": "Neuro-Stim Overdrive",
+    "type": "consumable",
+    "description": "Combat stimulant boosting reaction speed and accuracy.",
+    "value": 90,
+    "weight": 0.2,
+    "effects": {"accuracy_boost": 15, "crit_boost": 10, "duration": 3}
+  },
+  {
+    "id": "aegis_weave_vest",
+    "name": "Aegis Ballistic Weave Vest",
+    "type": "armor",
+    "description": "Lightweight composite armor crafted for security personnel.",
+    "value": 250,
+    "weight": 4.0,
+    "effects": {"armor": 8, "evasion": -2}
+  },
+  {
+    "id": "titanium_power_exosuit",
+    "name": "Titanium Exo-Frame Armor",
+    "type": "armor",
+    "description": "Heavy mechanized plating offering high ballistic resistance.",
+    "value": 750,
+    "weight": 12.0,
+    "effects": {"armor": 22, "evasion": -5, "health_bonus": 20}
+  },
+  {
+    "id": "cyber_deck_mk2",
+    "name": "Neural Cyber-Deck Mk.II",
+    "type": "tech_module",
+    "description": "Advanced hacking interface for overriding terminal security.",
+    "value": 400,
+    "weight": 1.5,
+    "effects": {"hacking_bonus": 4, "tech_bonus": 2}
+  },
+  {
+    "id": "ancient_relic_shard",
+    "name": "Precursor Relic Shard",
+    "type": "quest_item",
+    "description": "A glowing crystalline fragment covered in unknown non-human glyphs.",
+    "value": 1500,
+    "weight": 1.0,
+    "effects": {}
+  },
+  {
+    "id": "encrypted_data_pad",
+    "name": "Encrypted Corporate Datapad",
+    "type": "quest_item",
+    "description": "Contains classified files regarding Project Chimera.",
+    "value": 500,
+    "weight": 0.3,
+    "effects": {}
+  }
+]

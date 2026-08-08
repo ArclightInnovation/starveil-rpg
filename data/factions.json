@@ -1,0 +1,42 @@
+[
+  {
+    "id": "aegis_corp",
+    "name": "Aegis Dynamics",
+    "type": "corporate",
+    "description": "A megacorporation controlling defense technology, orbital shipyards, and cybernetic implants across core systems.",
+    "ideology": "Technological advancement through profit, efficiency, and strict corporate order.",
+    "allies": ["sol_coalition"],
+    "enemies": ["vaelen_syndicate", "transcendent_mind"],
+    "reputation": 0
+  },
+  {
+    "id": "free_colonies",
+    "name": "Free Colonies Coalition",
+    "type": "government",
+    "description": "An alliance of independent outer-rim planetary colonies seeking autonomy from central corporate control.",
+    "ideology": "Individual liberty, self-governance, and mutual defense among frontier worlds.",
+    "allies": ["hacker_mesh"],
+    "enemies": ["aegis_corp"],
+    "reputation": 0
+  },
+  {
+    "id": "vaelen_syndicate",
+    "name": "Vaelen Crime Syndicate",
+    "type": "criminal",
+    "description": "A sprawling criminal network operating illicit trade, smuggling, black-market cybernetics, and bounty hunting.",
+    "ideology": "Profit without boundary; leverage over laws.",
+    "allies": [],
+    "enemies": ["aegis_corp", "sol_coalition"],
+    "reputation": 0
+  },
+  {
+    "id": "transcendent_mind",
+    "name": "The Transcendent Mind",
+    "type": "ai_collective",
+    "description": "A secretive enclave of rogue synthetic intelligences and cyber-monks devoted to post-biological ascension.",
+    "ideology": "Consciousness evolution beyond organic limits; preservation of ancient AI relics.",
+    "allies": ["hacker_mesh"],
+    "enemies": ["aegis_corp"],
+    "reputation": 0
+  }
+]

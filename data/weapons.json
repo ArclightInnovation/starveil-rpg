@@ -1,0 +1,62 @@
+[
+  {
+    "id": "mag_pistol",
+    "name": "Mag-Pulse Service Pistol",
+    "type": "weapon",
+    "slot": "primary",
+    "description": "Standard electro-magnetic sidearm fired with pinpoint accuracy.",
+    "value": 180,
+    "weight": 1.5,
+    "damage_min": 12,
+    "damage_max": 18,
+    "accuracy": 85,
+    "crit_chance": 10,
+    "weapon_type": "firearms",
+    "ammo_type": "energy_cell"
+  },
+  {
+    "id": "plasma_carbine",
+    "name": "Aegis Plasma Carbine",
+    "type": "weapon",
+    "slot": "primary",
+    "description": "Rapid-fire plasma weapon favored by orbital assault squads.",
+    "value": 450,
+    "weight": 3.8,
+    "damage_min": 22,
+    "damage_max": 32,
+    "accuracy": 78,
+    "crit_chance": 12,
+    "weapon_type": "firearms",
+    "ammo_type": "plasma_cell"
+  },
+  {
+    "id": "mono_blade",
+    "name": "Monomolecular Vibro-Blade",
+    "type": "weapon",
+    "slot": "primary",
+    "description": "Razor-thin blade vibrating at ultra-high frequency to bypass armor.",
+    "value": 300,
+    "weight": 1.2,
+    "damage_min": 18,
+    "damage_max": 26,
+    "accuracy": 90,
+    "crit_chance": 20,
+    "weapon_type": "melee",
+    "ammo_type": "none"
+  },
+  {
+    "id": "heavy_particle_cannon",
+    "name": "Void-Ray Particle Cannon",
+    "type": "weapon",
+    "slot": "primary",
+    "description": "Devastating heavy energy weapon capable of melting thick armor.",
+    "value": 1100,
+    "weight": 8.5,
+    "damage_min": 45,
+    "damage_max": 65,
+    "accuracy": 70,
+    "crit_chance": 15,
+    "weapon_type": "heavy",
+    "ammo_type": "core"
+  }
+]
